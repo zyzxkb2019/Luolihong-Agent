@@ -35,9 +35,11 @@ SUPABASE_SERVICE_ROLE_KEY=
 AI_API_KEY=
 AI_BASE_URL=https://api.openai.com/v1
 AI_MODEL=gpt-4o-mini
+NEXT_PUBLIC_CONTACT_WECHAT=
 ```
 
 未配置 `AI_API_KEY` 时，问答助手会使用本地脱敏案例和规则兜底回答，保证内测链接不断流。
+未配置 Supabase 时，预约表单会生成可复制的预约信息，避免内测线索丢失。
 
 ## 首发运营建议
 

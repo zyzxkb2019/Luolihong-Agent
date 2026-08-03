@@ -1,10 +1,11 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { CalendarCheck } from "lucide-react";
+import { CalendarCheck, Copy } from "lucide-react";
 
 export function AppointmentForm() {
   const [status, setStatus] = useState("");
+  const [draft, setDraft] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -15,6 +16,15 @@ export function AppointmentForm() {
     const payload = Object.fromEntries(form.entries());
     const params = new URLSearchParams(window.location.search);
     payload.source = params.get("source") ?? params.get("utm_source") ?? "website";
+    const readableDraft = [
+      "【罗莉红方向导航内测预约】",
+      `称呼：${payload.name}`,
+      `身份：${payload.role}`,
+      `阶段：${payload.childAge || "未填写"}`,
+      `联系方式：${payload.contact}`,
+      `来源：${payload.source}`,
+      `当前困惑：${payload.problem}`
+    ].join("\n");
 
     const response = await fetch("/api/appointments", {
       method: "POST",
@@ -24,7 +34,14 @@ export function AppointmentForm() {
     const data = await response.json();
     setLoading(false);
     setStatus(data.message ?? data.error ?? "已提交。");
+    setDraft(data.persisted ? "" : readableDraft);
     if (response.ok) event.currentTarget.reset();
+  }
+
+  async function copyDraft() {
+    if (!draft) return;
+    await navigator.clipboard.writeText(draft);
+    setStatus("已复制。请把这段信息发给罗老师团队。");
   }
 
   return (
@@ -67,6 +84,19 @@ export function AppointmentForm() {
             提交即表示你同意罗老师团队基于本次内测目的联系你。请不要在表单中填写身份证号、病历等敏感信息。
           </p>
           {status ? <p className="md:col-span-2 bg-porcelain p-3 text-sm text-forest">{status}</p> : null}
+          {draft ? (
+            <div className="md:col-span-2 border border-brass/30 bg-porcelain p-4">
+              <pre className="whitespace-pre-wrap text-xs leading-6 text-ink/70">{draft}</pre>
+              <button
+                type="button"
+                onClick={copyDraft}
+                className="focus-ring mt-3 inline-flex items-center gap-2 bg-brass px-4 py-2 text-sm font-semibold text-white hover:bg-coral"
+              >
+                <Copy size={16} />
+                复制预约信息
+              </button>
+            </div>
+          ) : null}
         </form>
       </div>
     </section>

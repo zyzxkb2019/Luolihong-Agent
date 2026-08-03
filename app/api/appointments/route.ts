@@ -7,12 +7,16 @@ export async function POST(request: Request) {
     return Response.json({ error: "请补充称呼、身份、联系方式和当前困惑。" }, { status: 400 });
   }
 
-  if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    const response = await fetch(`${process.env.SUPABASE_URL}/rest/v1/consultation_orders`, {
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const hasStorage = Boolean(supabaseUrl && supabaseKey);
+
+  if (hasStorage && supabaseUrl && supabaseKey) {
+    const response = await fetch(`${supabaseUrl}/rest/v1/consultation_orders`, {
       method: "POST",
       headers: {
-        apikey: process.env.SUPABASE_SERVICE_ROLE_KEY,
-        Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
         "Content-Type": "application/json",
         Prefer: "return=minimal"
       },
@@ -34,6 +38,9 @@ export async function POST(request: Request) {
 
   return Response.json({
     ok: true,
-    message: "已收到你的预约信息。内测阶段请同步添加罗老师微信，方便尽快联系。"
+    persisted: hasStorage,
+    message: hasStorage
+      ? "已收到你的预约信息。罗老师团队会尽快联系你。"
+      : "内测表单当前未连接数据库。请复制下方信息，通过微信发给罗老师团队，避免线索丢失。"
   });
 }

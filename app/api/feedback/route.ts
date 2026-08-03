@@ -6,12 +6,15 @@ export async function POST(request: Request) {
     return Response.json({ error: "反馈信息不完整。" }, { status: 400 });
   }
 
-  if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    const response = await fetch(`${process.env.SUPABASE_URL}/rest/v1/ai_conversations`, {
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (supabaseUrl && supabaseKey) {
+    const response = await fetch(`${supabaseUrl}/rest/v1/ai_conversations`, {
       method: "POST",
       headers: {
-        apikey: process.env.SUPABASE_SERVICE_ROLE_KEY,
-        Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
         "Content-Type": "application/json",
         Prefer: "return=minimal"
       },
