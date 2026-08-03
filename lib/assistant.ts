@@ -1,4 +1,5 @@
 import { caseStories } from "@/data/cases";
+import { methodKnowledge } from "@/data/knowledge";
 
 const keywordMap = [
   ["游戏", "厌学", "手机", "沉迷"],
@@ -71,6 +72,7 @@ export async function buildCareerAnswer(question: string) {
       ].join("\n");
     })
     .join("\n\n");
+  const methodContext = methodKnowledge.map((item) => `${item.title}：${item.content}`).join("\n");
 
   const response = await fetch(`${baseUrl}/chat/completions`, {
     method: "POST",
@@ -89,7 +91,7 @@ export async function buildCareerAnswer(question: string) {
         },
         {
           role: "user",
-          content: `用户问题：${question}\n\n可引用的脱敏案例资料：\n${knowledge}\n\n请用中文回答，结构为：先接住处境；再翻译真实卡点；给2-3个下一步行动；最后在必要时引导预约。不要使用“生涯困局”这个表达。`
+          content: `用户问题：${question}\n\n罗老师方法论：\n${methodContext}\n\n可引用的脱敏案例资料：\n${knowledge}\n\n请用中文回答，结构为：先接住处境；再翻译真实卡点；给2-3个下一步行动；最后在必要时引导预约。不要使用“生涯困局”这个表达。`
         }
       ]
     })
