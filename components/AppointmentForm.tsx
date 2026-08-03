@@ -13,6 +13,8 @@ export function AppointmentForm() {
     setStatus("");
     const form = new FormData(event.currentTarget);
     const payload = Object.fromEntries(form.entries());
+    const params = new URLSearchParams(window.location.search);
+    payload.source = params.get("source") ?? params.get("utm_source") ?? "website";
 
     const response = await fetch("/api/appointments", {
       method: "POST",
@@ -61,6 +63,9 @@ export function AppointmentForm() {
             <CalendarCheck size={18} />
             {loading ? "正在提交..." : "预约一次初步沟通"}
           </button>
+          <p className="md:col-span-2 text-xs leading-5 text-ink/45">
+            提交即表示你同意罗老师团队基于本次内测目的联系你。请不要在表单中填写身份证号、病历等敏感信息。
+          </p>
           {status ? <p className="md:col-span-2 bg-porcelain p-3 text-sm text-forest">{status}</p> : null}
         </form>
       </div>

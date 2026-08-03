@@ -20,6 +20,28 @@ npm run start
 5. 在 DNS 中把 `4nianji.com` 或子域名解析到服务器 IP。
 6. 用腾讯云 SSL 证书或 Certbot 配置 HTTPS。
 
+## PM2方式
+
+```bash
+npm install
+npm run build
+npm install -g pm2
+pm2 start ecosystem.config.cjs
+pm2 save
+pm2 startup
+```
+
+Nginx 可参考 `docs/nginx-4nianji.example.conf`。
+
+## 渠道链接
+
+上线后建议给不同渠道使用不同参数：
+
+- 朋友圈：`https://4nianji.com?source=moments`
+- 微信群：`https://4nianji.com?source=wechat_group`
+- 公众号：`https://4nianji.com?source=public_account`
+- 视频号：`https://4nianji.com?source=video_account`
+
 ## 生产环境建议
 
 - 使用 PM2 管理进程

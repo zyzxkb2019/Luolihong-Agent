@@ -10,6 +10,8 @@ create table if not exists consultation_orders (
   created_at timestamptz default now()
 );
 
+create index if not exists consultation_orders_source_idx on consultation_orders (source);
+
 create table if not exists case_library (
   id uuid primary key default gen_random_uuid(),
   title text not null,
