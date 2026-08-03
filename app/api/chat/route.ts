@@ -8,5 +8,5 @@ export async function POST(request: Request) {
     return Response.json({ error: "请先输入你想咨询的问题。" }, { status: 400 });
   }
 
-  return Response.json(buildCareerAnswer(question));
+  return Response.json(await buildCareerAnswer(question));
 }
