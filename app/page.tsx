@@ -1,4 +1,5 @@
 import { ArrowDown, BadgeCheck, BrainCircuit, MessageCircle, Target, Users } from "lucide-react";
+import Image from "next/image";
 import { AppointmentForm } from "@/components/AppointmentForm";
 import { CaseLibrary } from "@/components/CaseLibrary";
 import { ChatAssistant } from "@/components/ChatAssistant";
@@ -72,9 +73,17 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="border border-ink/10 bg-white p-5 shadow-soft md:p-7">
-            <p className="text-sm font-semibold text-coral">这些问题，不是你一个家庭在经历</p>
-            <div className="mt-5 grid gap-3">
+          <div className="border border-ink/10 bg-white p-4 shadow-soft md:p-5">
+            <Image
+              src="/luo-lihong-card.jpg"
+              alt="罗莉红个人介绍名片"
+              width={2048}
+              height={1072}
+              priority
+              className="aspect-[1.91/1] w-full object-cover"
+            />
+            <p className="mt-5 text-sm font-semibold text-coral">这些问题，不是你一个家庭在经历</p>
+            <div className="mt-4 grid gap-3">
               {painScenes.map((scene) => (
                 <div key={scene} className="flex items-center gap-3 bg-porcelain p-4">
                   <BadgeCheck size={18} className="shrink-0 text-brass" />
