@@ -29,3 +29,6 @@ create table if not exists ai_conversations (
   lead_intent text,
   created_at timestamptz default now()
 );
+
+create index if not exists ai_conversations_created_at_idx on ai_conversations (created_at desc);
+create index if not exists consultation_orders_created_at_idx on consultation_orders (created_at desc);

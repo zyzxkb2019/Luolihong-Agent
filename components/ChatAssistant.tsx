@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { Send, Sparkles } from "lucide-react";
+import { CalendarCheck, Send, Sparkles, ThumbsDown, ThumbsUp } from "lucide-react";
 
 type ChatResponse = {
   answer: string;
@@ -13,11 +13,13 @@ export function ChatAssistant() {
   const [response, setResponse] = useState<ChatResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [feedback, setFeedback] = useState("");
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setLoading(true);
     setError("");
+    setFeedback("");
 
     const res = await fetch("/api/chat", {
       method: "POST",
@@ -34,6 +36,20 @@ export function ChatAssistant() {
     }
 
     setResponse(data);
+  }
+
+  async function rateAnswer(rating: number) {
+    if (!response) return;
+    await fetch("/api/feedback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        question,
+        answer: response.answer,
+        rating
+      })
+    });
+    setFeedback(rating >= 4 ? "收到。这个回答会计入“说中率”。" : "收到。低分反馈会优先用于改进内测版本。");
   }
 
   return (
@@ -86,6 +102,34 @@ export function ChatAssistant() {
                     参考案例：{response.references.map((item) => item.title).join("、")}
                   </div>
                 ) : null}
+                <div className="mt-5 flex flex-col gap-3 border-t border-ink/10 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => rateAnswer(5)}
+                      className="focus-ring inline-flex items-center gap-2 border border-forest/20 px-3 py-2 text-xs font-semibold text-forest hover:bg-forest hover:text-white"
+                    >
+                      <ThumbsUp size={15} />
+                      说中了
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => rateAnswer(2)}
+                      className="focus-ring inline-flex items-center gap-2 border border-coral/20 px-3 py-2 text-xs font-semibold text-coral hover:bg-coral hover:text-white"
+                    >
+                      <ThumbsDown size={15} />
+                      没说中
+                    </button>
+                  </div>
+                  <a
+                    href="#appointment"
+                    className="inline-flex items-center justify-center gap-2 bg-forest px-3 py-2 text-xs font-semibold text-white hover:bg-ink"
+                  >
+                    <CalendarCheck size={15} />
+                    预约真人判断
+                  </a>
+                </div>
+                {feedback ? <p className="mt-3 bg-porcelain p-3 text-xs text-forest">{feedback}</p> : null}
               </div>
             ) : (
               <div className="flex h-full min-h-[180px] items-center justify-center text-center text-sm leading-7 text-ink/55">
