@@ -4,7 +4,7 @@
 
 本项目是 Next.js 16 应用，推荐用“腾讯云轻量应用服务器 + Node.js + PM2 + Nginx”上线。这样最稳定，也方便后续接 AI、Supabase、日志和域名。
 
-如果这台服务器已经跑了 `words.4nianji.com`，不要复用它的端口。罗莉红智能体固定使用本机 `3001` 端口，由 Nginx 把 `career.4nianji.com` 转发到 `127.0.0.1:3001`。
+如果这台服务器已经跑了 `words.4nianji.com`，不要复用它的端口。罗莉红智能体固定使用本机 `4173` 端口，由 Nginx 把 `career.4nianji.com` 转发到 `127.0.0.1:4173`。
 
 ## 服务器准备
 
@@ -124,7 +124,7 @@ pm2 restart luolihong-agent
 ```bash
 pm2 status
 pm2 logs luolihong-agent
-curl -I http://127.0.0.1:3001
+curl -I http://127.0.0.1:4173
 curl -I https://career.4nianji.com
 ```
 
