@@ -56,10 +56,10 @@ export function ChatAssistant() {
     <section id="assistant" className="bg-forest py-16 text-white md:py-24">
       <div className="section-shell grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
         <div>
-          <p className="text-sm font-semibold text-warm">AI方向问答助手</p>
-          <h2 className="mt-3 text-3xl font-semibold md:text-4xl">把困惑说出来，先得到一张问题地图。</h2>
+          <p className="text-sm font-semibold text-warm">3分钟问题地图</p>
+          <h2 className="mt-3 text-3xl font-semibold md:text-4xl">不是要一段漂亮回答，而是看清真正卡点。</h2>
           <p className="mt-5 leading-8 text-white/72">
-            它不会替你做重大决定，也不会伪装成真人诊断。第一版的任务很明确：帮你把孩子或自己的真实卡点拆清楚，判断下一步该补什么信息、做什么验证。
+            通用大模型能给建议，罗老师智能体要做的是另一件事：把你的困惑放进真实案例和高管判断框架里，生成一张可行动的问题地图。
           </p>
           <div className="mt-8 grid gap-3 text-sm text-white/80">
             <div className="border border-white/15 p-4">适合：厌学、游戏、选科、志愿、留学、专业、就业迷茫</div>
@@ -83,7 +83,7 @@ export function ChatAssistant() {
               className="focus-ring mt-4 inline-flex w-full items-center justify-center gap-2 bg-brass px-5 py-3 font-semibold text-white transition hover:bg-coral disabled:cursor-not-allowed disabled:opacity-60"
             >
               <Send size={18} />
-              {loading ? "正在梳理..." : "生成初步判断"}
+              {loading ? "正在生成问题地图..." : "生成我的问题地图"}
             </button>
           </form>
 
@@ -94,7 +94,7 @@ export function ChatAssistant() {
               <div>
                 <div className="flex items-center gap-2 text-sm font-semibold text-forest">
                   <Sparkles size={18} />
-                  初步回应
+                  问题地图
                 </div>
                 <div className="mt-4 whitespace-pre-line text-sm leading-7 text-ink/78">{response.answer}</div>
                 {response.references.length > 0 ? (

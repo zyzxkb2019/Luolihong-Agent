@@ -1,3 +1,5 @@
+import { appendLead } from "@/lib/leads";
+
 export async function POST(request: Request) {
   const body = await request.json();
   const required = ["name", "role", "contact", "problem"];
@@ -36,11 +38,18 @@ export async function POST(request: Request) {
     }
   }
 
+  await appendLead({
+    name: String(body.name),
+    role: String(body.role),
+    contact: String(body.contact),
+    childAge: String(body.childAge ?? ""),
+    problem: String(body.problem),
+    source: String(body.source ?? "website")
+  });
+
   return Response.json({
     ok: true,
-    persisted: hasStorage,
-    message: hasStorage
-      ? "已收到你的预约信息。罗老师团队会尽快联系你。"
-      : "内测表单当前未连接数据库。请复制下方信息，通过微信发给罗老师团队，避免线索丢失。"
+    persisted: true,
+    message: "已收到你的预约信息。罗老师团队会尽快联系你。"
   });
 }
