@@ -54,33 +54,70 @@ export function CaseLibrary() {
                 暂无匹配案例
               </div>
             ) : (
-              filtered.map((story) => (
-                <button
-                  key={story.id}
-                  onClick={() => setActiveId(story.id)}
-                  className={`focus-ring min-h-[220px] border p-5 text-left transition hover:-translate-y-0.5 hover:shadow-soft ${
-                    active?.id === story.id ? "border-brass bg-warm" : "border-ink/10 bg-white"
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <span className="text-xs font-semibold text-coral">{story.audience}</span>
-                    <ArrowRight size={18} className="shrink-0 text-brass" />
-                  </div>
-                  <h3 className="mt-4 text-xl font-semibold text-ink">{story.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-ink/70">{story.summary}</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {story.tags.slice(0, 3).map((tag) => (
-                      <span key={tag} className="bg-white/70 px-2 py-1 text-xs text-forest">
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                </button>
-              ))
+              filtered.map((story) => {
+                const isOpen = active?.id === story.id;
+
+                return (
+                  <article
+                    key={story.id}
+                    className={`min-h-[220px] border p-5 text-left transition hover:-translate-y-0.5 hover:shadow-soft ${
+                      isOpen ? "border-brass bg-warm" : "border-ink/10 bg-white"
+                    }`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setActiveId(story.id)}
+                      aria-expanded={isOpen}
+                      aria-controls={`case-detail-${story.id}`}
+                      className="focus-ring w-full text-left"
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <span className="text-xs font-semibold text-coral">{story.audience}</span>
+                        <span
+                          className={`inline-flex h-9 w-9 shrink-0 items-center justify-center border border-brass/30 text-brass transition ${
+                            isOpen ? "rotate-90 bg-white" : "bg-transparent"
+                          }`}
+                        >
+                          <ArrowRight size={18} />
+                        </span>
+                      </div>
+                      <h3 className="mt-4 text-xl font-semibold text-ink">{story.title}</h3>
+                      <p className="mt-3 text-sm leading-6 text-ink/70">{story.summary}</p>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {story.tags.slice(0, 3).map((tag) => (
+                          <span key={tag} className="bg-white/70 px-2 py-1 text-xs text-forest">
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+                    </button>
+
+                    {isOpen ? (
+                      <div
+                        id={`case-detail-${story.id}`}
+                        className="mt-5 border-t border-brass/30 pt-5 text-sm leading-7 text-ink/75"
+                      >
+                        <div>
+                          <p className="font-semibold text-ink">卡点</p>
+                          <p>{story.tension}</p>
+                        </div>
+                        <div className="mt-4">
+                          <p className="font-semibold text-ink">罗老师判断</p>
+                          <p>{story.insight}</p>
+                        </div>
+                        <div className="mt-4">
+                          <p className="font-semibold text-ink">变化</p>
+                          <p>{story.outcome}</p>
+                        </div>
+                      </div>
+                    ) : null}
+                  </article>
+                );
+              })
             )}
           </div>
 
-          <aside className="border border-ink/10 bg-porcelain p-6 shadow-soft lg:sticky lg:top-6 lg:self-start">
+          <aside className="hidden border border-ink/10 bg-porcelain p-6 shadow-soft lg:sticky lg:top-6 lg:block lg:self-start">
             <p className="text-sm font-semibold text-brass">案例拆解</p>
             <h3 className="mt-3 text-2xl font-semibold text-ink">{active.title}</h3>
             <div className="mt-5 space-y-5 text-sm leading-7 text-ink/75">
