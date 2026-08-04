@@ -11,7 +11,7 @@
 - 系统：Ubuntu 22.04 LTS
 - 内存：2GB 起步，4GB 更稳
 - 开放端口：80、443、22
-- 域名：`4nianji.com` 解析到服务器公网 IP
+- 域名：`career.4nianji.com` 解析到服务器公网 IP
 
 ## 安装基础环境
 
@@ -47,7 +47,7 @@ nano .env.local
 首发最低配置：
 
 ```bash
-NEXT_PUBLIC_SITE_URL=https://4nianji.com
+NEXT_PUBLIC_SITE_URL=https://career.4nianji.com
 ```
 
 如果你有大模型 Key，再加：
@@ -76,8 +76,8 @@ pm2 startup
 ## 配置 Nginx
 
 ```bash
-sudo cp docs/nginx-4nianji.example.conf /etc/nginx/sites-available/4nianji.com
-sudo ln -s /etc/nginx/sites-available/4nianji.com /etc/nginx/sites-enabled/4nianji.com
+sudo cp docs/nginx-4nianji.example.conf /etc/nginx/sites-available/career.4nianji.com
+sudo ln -s /etc/nginx/sites-available/career.4nianji.com /etc/nginx/sites-enabled/career.4nianji.com
 sudo nginx -t
 sudo systemctl reload nginx
 ```
@@ -85,7 +85,7 @@ sudo systemctl reload nginx
 先访问：
 
 ```text
-http://4nianji.com
+http://career.4nianji.com
 ```
 
 ## 配置 HTTPS
@@ -96,13 +96,13 @@ http://4nianji.com
 
 ```bash
 sudo apt install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d 4nianji.com -d www.4nianji.com
+sudo certbot --nginx -d career.4nianji.com
 ```
 
 完成后访问：
 
 ```text
-https://4nianji.com
+https://career.4nianji.com
 ```
 
 ## 更新网站
@@ -123,17 +123,17 @@ pm2 restart luolihong-agent
 pm2 status
 pm2 logs luolihong-agent
 curl -I http://127.0.0.1:3000
-curl -I https://4nianji.com
+curl -I https://career.4nianji.com
 ```
 
 ## 渠道链接
 
 上线后建议给不同渠道使用不同参数：
 
-- 朋友圈：`https://4nianji.com?source=moments`
-- 微信群：`https://4nianji.com?source=wechat_group`
-- 公众号：`https://4nianji.com?source=public_account`
-- 视频号：`https://4nianji.com?source=video_account`
+- 朋友圈：`https://career.4nianji.com?source=moments`
+- 微信群：`https://career.4nianji.com?source=wechat_group`
+- 公众号：`https://career.4nianji.com?source=public_account`
+- 视频号：`https://career.4nianji.com?source=video_account`
 
 ## 生产环境建议
 
